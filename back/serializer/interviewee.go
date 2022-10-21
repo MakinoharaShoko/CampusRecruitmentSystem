@@ -14,14 +14,14 @@ type Interviewee struct {
 // BuildUser 序列化用户
 func BuildInterviewee(interviewee model.Interviewee) Interviewee {
 	return Interviewee{
-		UserInfo: User{
-			ID:        interviewee.UserInfo.ID,
-			UserName:  interviewee.UserInfo.UserName,
-			Nickname:  interviewee.UserInfo.Nickname,
-			Status:    interviewee.UserInfo.Status,
-			Avatar:    interviewee.UserInfo.Avatar,
-			CreatedAt: interviewee.UserInfo.CreatedAt.Unix(),
-		},
+		//UserInfo: User{
+		//	ID:        interviewee.UserInfo.ID,
+		//	UserName:  interviewee.UserInfo.UserName,
+		//	Nickname:  interviewee.UserInfo.Nickname,
+		//	Status:    interviewee.UserInfo.Status,
+		//	Avatar:    interviewee.UserInfo.Avatar,
+		//	CreatedAt: interviewee.UserInfo.CreatedAt.Unix(),
+		//},
 		Institution:  interviewee.Institution,
 		Background:   interviewee.Background,
 		GraduationAt: interviewee.GraduationAt,

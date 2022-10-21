@@ -15,7 +15,7 @@ type Hr struct {
 func BuildHr(hr model.Hr) Hr {
 	return Hr{
 		UserInfo: User{
-			ID:        hr.UserInfo.ID,
+			//ID:        hr.UserInfo.ID,
 			UserName:  hr.UserInfo.UserName,
 			Nickname:  hr.UserInfo.Nickname,
 			Status:    hr.UserInfo.Status,

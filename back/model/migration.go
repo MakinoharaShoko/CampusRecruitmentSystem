@@ -5,6 +5,8 @@ package model
 func migration() {
 	// 自动迁移模式
 	_ = DB.AutoMigrate(&User{})
-	_ = DB.AutoMigrate(&Interviewee{})
-	_ = DB.AutoMigrate(&Hr{})
+	//_ = DB.AutoMigrate(&Hr{})
+	_ = DB.AutoMigrate(&Process{})
+	_ = DB.AutoMigrate(&Company{})
+	_ = DB.AutoMigrate(&Position{})
 }

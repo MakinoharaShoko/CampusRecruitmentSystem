@@ -30,17 +30,18 @@ func NewRouter() *gin.Engine {
 
 		// interviewee 相关接口
 		// 获取应聘者基本信息
-		v1.GET("interviewee/me")
-		// 查看招聘详细信息
-		v1.GET("interviewee/check")
+		v1.GET("interviewee/me", api.IntervieweeMe)
 
 		// hr 相关接口
 		// 获取hr基本信息
 		v1.GET("hr/me")
 
 		// 公司 接口
+		companyOpen := v1.Group("company")
 		// 查看公司基本信息
-		v1.GET("company/me")
+		companyOpen.GET("me")
+		// 公司登录
+		companyOpen.POST("login")
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -54,42 +55,35 @@ func NewRouter() *gin.Engine {
 
 			// interviewee 接口
 			// 设置个人应聘信息
-			auth.POST("interviewee/setme")
+			auth.POST("interviewee/setme", api.IntervieweeSetMe)
 			// 投递个人简历
 			auth.POST("interviewee/post_resume")
+			//
+			auth.GET("interviewee/get_all_process")
 
-			// hr 接口
-			// 设置个人简介
-			auth.POST("hr/setme")
-			// 发布招聘信息
-			auth.POST("hr/publish")
-			// 查看已收到的简历
-			auth.GET("hr/get_resume")
-			// 接收简历
-			auth.PUT("hr/occupy")
-			// 拒绝简历
-			auth.PUT("hr/deny")
+			// company 接口
+			company := auth.Group("company")
+			// 获取全部流程
+			company.GET("get_all_process")
+
+			// position 接口
+			position := auth.Group("position")
+			// 发布职位
+			position.POST("new_position")
+			// 查看特定职位
+			position.GET("check_position")
+			// 删除职位
+			position.DELETE("del_position")
+
+			// process 接口
+			process := auth.Group("process")
+			// 发起流程
+			process.POST("new_process")
+			// 查看流程状态
+			process.GET("check_process")
+			// 变更流程
+			process.POST("change_process")
 		}
 	}
-	// // 求职用户
-	// interviewee := v1.Group("/interviewee")
-	// {
-	// 	interviewee.POST("ping", api.Ping)
-
-	// 	// 用户登录
-	// 	interviewee.POST("user/register", api.UserRegister)
-
-	// 	// 用户登录
-	// 	interviewee.POST("user/login", api.UserLogin)
-
-	// 	// 需要登录保护的
-	// 	auth := interviewee.Group("")
-	// 	auth.Use(middleware.AuthRequired())
-	// 	{
-	// 		// User Routing
-	// 		auth.GET("user/me", api.UserMe)
-	// 		auth.DELETE("user/logout", api.UserLogout)
-	// 	}
-	// }
 	return r
 }

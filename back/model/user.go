@@ -2,17 +2,24 @@ package model
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
+	"time"
 )
 
 // User 用户模型
 type User struct {
-	gorm.Model
+	ID             int64 `gorm:"primarykey"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 	UserName       string
 	PasswordDigest string
 	Nickname       string
 	Status         string
 	Avatar         string `gorm:"size:1000"`
+	// 招聘资料
+	Institution  string `gorm:"index:idx_institution;comment:'最高学历毕业院校'"`
+	Background   string
+	GraduationAt int32
+	Resume       string
 }
 
 const (

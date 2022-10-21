@@ -16,6 +16,7 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Session(os.Getenv("SESSION_SECRET")))
 	r.Use(middleware.Cors())
 	r.Use(middleware.CurrentUser())
+	r.Use(middleware.CurrentCompany())
 
 	// 路由
 	v1 := r.Group("/api/v1")
@@ -32,16 +33,21 @@ func NewRouter() *gin.Engine {
 		// 获取应聘者基本信息
 		v1.GET("interviewee/me", api.IntervieweeMe)
 
-		// hr 相关接口
-		// 获取hr基本信息
-		v1.GET("hr/me")
-
 		// 公司 接口
-		companyOpen := v1.Group("company")
+		companyOpen := v1.Group("company", api.CompanyMe)
 		// 查看公司基本信息
 		companyOpen.GET("me")
+		// 公司注册
+		companyOpen.POST("register", api.CompanyRegister)
 		// 公司登录
-		companyOpen.POST("login")
+		companyOpen.POST("login", api.CompanyLogin)
+
+		// position 公共接口
+		positionOpen := v1.Group("position")
+		// 查看特定职位
+		positionOpen.GET("check_position", api.CheckPosition)
+		// 查看所有职位
+		positionOpen.GET("get_all_position", api.AllPosition)
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -61,20 +67,6 @@ func NewRouter() *gin.Engine {
 			//
 			auth.GET("interviewee/get_all_process")
 
-			// company 接口
-			company := auth.Group("company")
-			// 获取全部流程
-			company.GET("get_all_process")
-
-			// position 接口
-			position := auth.Group("position")
-			// 发布职位
-			position.POST("new_position")
-			// 查看特定职位
-			position.GET("check_position")
-			// 删除职位
-			position.DELETE("del_position")
-
 			// process 接口
 			process := auth.Group("process")
 			// 发起流程
@@ -83,6 +75,25 @@ func NewRouter() *gin.Engine {
 			process.GET("check_process")
 			// 变更流程
 			process.POST("change_process")
+		}
+
+		// 公司需要登录保护的
+		companyAuth := v1.Group("")
+		companyAuth.Use(middleware.AuthRequired())
+		{
+			// company 接口
+			company := companyAuth.Group("company")
+			// 获取全部流程
+			company.GET("get_all_process")
+			// 公司登出
+			company.DELETE("logout", api.CompanyLogout)
+
+			// position 接口
+			position := companyAuth.Group("position")
+			// 创建职位
+			position.POST("new_position", api.NewPosition)
+			// 删除职位
+			position.DELETE("del_position", api.DelPosition)
 		}
 	}
 	return r

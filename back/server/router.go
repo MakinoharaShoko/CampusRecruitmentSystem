@@ -64,17 +64,15 @@ func NewRouter() *gin.Engine {
 			auth.POST("interviewee/setme", api.IntervieweeSetMe)
 			// 投递个人简历
 			auth.POST("interviewee/post_resume")
-			//
-			auth.GET("interviewee/get_all_process")
+			// 查看个人全部流程
+			auth.GET("interviewee/get_all_process", api.AllProcessUser)
 
 			// process 接口
 			process := auth.Group("process")
 			// 发起流程
-			process.POST("new_process")
+			process.POST("new_process", api.NewProcess)
 			// 查看流程状态
-			process.GET("check_process")
-			// 变更流程
-			process.POST("change_process")
+			process.GET("check_process", api.CheckProcess)
 		}
 
 		// 公司需要登录保护的
@@ -84,7 +82,7 @@ func NewRouter() *gin.Engine {
 			// company 接口
 			company := companyAuth.Group("company")
 			// 获取全部流程
-			company.GET("get_all_process")
+			company.GET("get_all_process", api.AllProcessCompany)
 			// 公司登出
 			company.DELETE("logout", api.CompanyLogout)
 
@@ -94,6 +92,13 @@ func NewRouter() *gin.Engine {
 			position.POST("new_position", api.NewPosition)
 			// 删除职位
 			position.DELETE("del_position", api.DelPosition)
+
+			// process 接口
+			process := auth.Group("process")
+			// 查看流程状态
+			process.GET("check_process_company", api.CheckProcess)
+			// 变更流程
+			process.POST("change_process", api.ChangeProcess)
 		}
 	}
 	return r

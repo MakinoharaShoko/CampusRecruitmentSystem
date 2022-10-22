@@ -42,19 +42,9 @@ function App() {
               个人中心
             </a>
           </div>
-          <div className={styles.menuItem}>
-            <a className={styles.menuA} href="/userRegister">
-              注册
-            </a>
-          </div>
-          <div className={styles.menuItem}>
-            <a href="/login" className={styles.menuA}>
-              登录
-            </a>
-          </div>
         </div>
       </Header>
-      <Content>
+      <Content style={{ margin: '2em 2em 2em 2em', background: 'white' }}>
         <RouterProvider router={router} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>2022 CRS Team</Footer>

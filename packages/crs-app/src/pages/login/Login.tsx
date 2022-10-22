@@ -35,14 +35,16 @@ export default function Login() {
   };
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
     userLogin(values);
   };
 
   function userLogin(values: any) {
     const formData = parseFormData(values);
     axios.post('/api/v1/user/login', formData).then((resp) => {
-      console.log(resp);
+      console.log(resp.data);
+      if (resp.data.code === 0) {
+        window.location.pathname = 'me';
+      }
     });
   }
 
@@ -51,7 +53,7 @@ export default function Login() {
   };
 
   const userLoginForm = (
-    <div>
+    <div style={{ padding: '2em 1em 2em 1em' }}>
       <Form
         name="basic"
         labelCol={{ span: 4 }}

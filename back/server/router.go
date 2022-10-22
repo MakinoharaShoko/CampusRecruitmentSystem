@@ -18,6 +18,11 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.CurrentUser())
 	r.Use(middleware.CurrentCompany())
 
+	// 最大文件大小
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
+	// 设置静态文件夹
+	r.Static("./upload/avatar", "./upload/avatar")
+
 	// 路由
 	v1 := r.Group("/api/v1")
 	{
@@ -56,6 +61,8 @@ func NewRouter() *gin.Engine {
 			// User Routing
 			auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)
+			//头像上传
+			v1.POST("user/avatar/upload", api.UploadAvatar)
 			// 发起聊天
 			auth.POST("user/talkwith")
 
@@ -63,7 +70,7 @@ func NewRouter() *gin.Engine {
 			// 设置个人应聘信息
 			auth.POST("interviewee/setme", api.IntervieweeSetMe)
 			// 投递个人简历
-			auth.POST("interviewee/post_resume")
+			auth.POST("interviewee/post_resume", api.UploadResume)
 			// 查看个人全部流程
 			auth.GET("interviewee/get_all_process", api.AllProcessUser)
 
@@ -73,6 +80,11 @@ func NewRouter() *gin.Engine {
 			process.POST("new_process", api.NewProcess)
 			// 查看流程状态
 			process.GET("check_process", api.CheckProcess)
+
+			// school 接口
+			school := auth.Group("school")
+			// 获取本校全部学生
+			school.GET("get_all_process", api.GetAllProcess)
 		}
 
 		// 公司需要登录保护的

@@ -54,6 +54,11 @@ func NewRouter() *gin.Engine {
 		// 查看所有职位
 		positionOpen.GET("get_all_position", api.AllPosition)
 
+		// school 接口
+		school := v1.Group("school")
+		// 获取本校全部学生
+		school.GET("get_all_process", api.GetAllProcess)
+
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
@@ -80,11 +85,6 @@ func NewRouter() *gin.Engine {
 			process.POST("new_process", api.NewProcess)
 			// 查看流程状态
 			process.GET("check_process", api.CheckProcess)
-
-			// school 接口
-			school := auth.Group("school")
-			// 获取本校全部学生
-			school.GET("get_all_process", api.GetAllProcess)
 		}
 
 		// 公司需要登录保护的

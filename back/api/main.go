@@ -29,10 +29,10 @@ func CurrentUser(c *gin.Context) *model.User {
 	return nil
 }
 
-// CurrentInterviewee 获取当前应聘者
-func CurrentInterviewee(c *gin.Context) *model.Interviewee {
-	if user, _ := c.Get("interviewee"); user != nil {
-		if u, ok := user.(*model.Interviewee); ok {
+// CurrentCompany 获取当前公司
+func CurrentCompany(c *gin.Context) *model.Company {
+	if user, _ := c.Get("company"); user != nil {
+		if u, ok := user.(*model.Company); ok {
 			return u
 		}
 	}

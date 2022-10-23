@@ -39,9 +39,9 @@ func NewRouter() *gin.Engine {
 		v1.GET("interviewee/me", api.IntervieweeMe)
 
 		// 公司 接口
-		companyOpen := v1.Group("company", api.CompanyMe)
+		companyOpen := v1.Group("company")
 		// 查看公司基本信息
-		companyOpen.GET("me")
+		companyOpen.GET("me", api.CompanyMe)
 		// 公司注册
 		companyOpen.POST("register", api.CompanyRegister)
 		// 公司登录
@@ -89,10 +89,12 @@ func NewRouter() *gin.Engine {
 
 		// 公司需要登录保护的
 		companyAuth := v1.Group("")
-		companyAuth.Use(middleware.AuthRequired())
+		companyAuth.Use(middleware.CompanyAuthRequired())
 		{
 			// company 接口
 			company := companyAuth.Group("company")
+			// 登录公司获取本公司信息
+			company.GET("AllInfo", api.CompanyAllInfo)
 			// 获取全部流程
 			company.GET("get_all_process", api.AllProcessCompany)
 			// 公司登出

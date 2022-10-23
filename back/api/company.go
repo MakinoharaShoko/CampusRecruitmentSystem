@@ -14,6 +14,12 @@ type CompanyMeResp struct {
 	Info        string `json:"info"`
 }
 
+type CompanyAllInfoResp struct {
+	Id          int64  `json:"id"`
+	CompanyName string `json:"company_name"`
+	Info        string `json:"info"`
+}
+
 // CompanyRegister 公司注册接口
 func CompanyRegister(c *gin.Context) {
 	var service service.CompanyRegisterService
@@ -59,4 +65,15 @@ func CompanyMe(c *gin.Context) {
 			},
 		})
 	}
+}
+
+func CompanyAllInfo(c *gin.Context) {
+	company := CurrentCompany(c)
+	res := serializer.Response{
+		Data: CompanyAllInfoResp{
+			Id:          company.ID,
+			CompanyName: company.CompanyName,
+			Info:        company.Info,
+		}}
+	c.JSON(200, res)
 }

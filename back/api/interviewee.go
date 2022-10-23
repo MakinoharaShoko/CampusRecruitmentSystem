@@ -58,7 +58,7 @@ type IntervieweeMeResp struct {
 	Institution  string `json:"institution"`
 	Background   string `json:"background"`
 	GraduationAt int32  `json:"graduation_at"`
-	resume       string `json:"resume"`
+	Resume       string `json:"resume"`
 }
 
 // IntervieweeMe 用户详情
@@ -73,7 +73,7 @@ func IntervieweeMe(c *gin.Context) {
 				Institution:  intervieweeInfo.Institution,
 				Background:   intervieweeInfo.Background,
 				GraduationAt: intervieweeInfo.GraduationAt,
-				resume:       intervieweeInfo.Resume,
+				Resume:       intervieweeInfo.Resume,
 			},
 		})
 	}

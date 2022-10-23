@@ -1,10 +1,11 @@
 import { useValue } from '@/hooks/useValue';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, DatePicker, Descriptions, Form, Input, PageHeader } from 'antd';
+import { Avatar, Button, DatePicker, Descriptions, Form, Input, message, Modal, PageHeader, Upload } from 'antd';
+import type { UploadChangeParam } from 'antd/es/upload';
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import styles from './me.module.scss';
-import { parseFormData } from '@/utils/parseFormData';
-import moment from 'moment';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 /**
  * 普通用户信息
@@ -25,6 +26,20 @@ interface IUserOpenInfo {
 }
 
 export default function Me() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const myInfo = useValue<IUserInfo | null>(null);
   const myOpenInfo = useValue<IUserOpenInfo | null>(null);
   const isEditting = useValue(false);
@@ -99,6 +114,59 @@ export default function Me() {
     </div>
   );
 
+  /**
+   * 上传头像部分
+   */
+
+  const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result as string));
+    reader.readAsDataURL(img);
+  };
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
+
+  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+    console.log(info.file);
+    const formData = new FormData();
+    formData.append('uid', myInfo.value?.id.toString() ?? '1');
+    formData.append('file', info.file.originFileObj as Blob);
+    axios.post('/api/v1/user/avatar/upload', formData).then((resp) => {
+      console.log(resp);
+      window.location.reload();
+    });
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj as RcFile, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
   return (
     <div>
       <PageHeader
@@ -120,10 +188,18 @@ export default function Me() {
         title="我的信息"
         subTitle="学生用户"
       >
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1em 1em 1em 1em' }}>
+          {myInfo.value?.avatar !== '' && <Avatar onClick={showModal} src={myInfo.value?.avatar ?? ''} />}
+          {myInfo.value?.avatar === '' && (
+            <Avatar onClick={showModal} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+              {myInfo.value.user_name}
+            </Avatar>
+          )}
+          <div style={{ fontSize: 'larger', padding: '0 0 0 1em' }}>{myInfo.value?.user_name ?? ''}</div>
+        </div>
         {isEditting.value && editInfoForm}
         {!isEditting.value && (
           <Descriptions bordered>
-            <Descriptions.Item label="用户名">{myInfo.value?.user_name ?? ''}</Descriptions.Item>
             <Descriptions.Item label="昵称">{myInfo.value?.nickname ?? ''}</Descriptions.Item>
             <Descriptions.Item label="状态">
               {myInfo.value?.status === 'active' ? '在看机会' : '暂不求职'}
@@ -137,6 +213,18 @@ export default function Me() {
           </Descriptions>
         )}
       </PageHeader>
+      <Modal title="上传头像" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        </Upload>
+      </Modal>
     </div>
   );
 }

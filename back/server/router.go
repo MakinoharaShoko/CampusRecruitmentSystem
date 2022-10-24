@@ -59,6 +59,9 @@ func NewRouter() *gin.Engine {
 		// 获取本校全部学生
 		school.GET("get_all_process", api.GetAllProcess)
 
+		// 变更流程
+		v1.POST("/process/change_process", api.ChangeProcess)
+
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
@@ -112,7 +115,7 @@ func NewRouter() *gin.Engine {
 			// 查看流程状态
 			process.GET("check_process_company", api.CheckProcess)
 			// 变更流程
-			process.POST("change_process", api.ChangeProcess)
+			//process.POST("change_process", api.ChangeProcess)
 		}
 	}
 	return r

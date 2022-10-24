@@ -9,6 +9,7 @@ import styles from './app.module.scss';
 import Login from './pages/login/Login';
 import CompanyHome from '@/pages/companyHome/CompanyHome';
 import CompanyAllProcecss from '@/pages/process/CompanyAllProcess';
+import Summary from '@/pages/summary/Summary';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     path: '/companyAllProcess',
     element: <CompanyAllProcecss />,
   },
+  {
+    path: '/summary',
+    element: <Summary />,
+  },
 ]);
 
 function App() {
@@ -55,6 +60,11 @@ function App() {
           <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
             <a className={styles.menuA} href="/company">
               企业管理
+            </a>
+          </div>
+          <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
+            <a className={styles.menuA} href="/summary">
+              就业质量统计
             </a>
           </div>
         </div>

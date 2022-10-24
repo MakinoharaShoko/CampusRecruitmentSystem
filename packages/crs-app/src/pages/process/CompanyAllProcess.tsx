@@ -76,7 +76,7 @@ export default function CompanyAllProcecss() {
 
   return (
     <div>
-      <div>公司全部流程</div>
+      <div style={{ fontSize: 'x-large', padding: '1em 1em 1em 1em' }}>公司全部流程</div>
       <div>{companyProcess}</div>
     </div>
   );

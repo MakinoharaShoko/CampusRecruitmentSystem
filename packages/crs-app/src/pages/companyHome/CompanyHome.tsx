@@ -58,8 +58,7 @@ export default function CompanyHome() {
           border: '1px solid rgba(0,0,0,0.1)',
         }}
       >
-        <div style={{ fontSize: 'large', fontWeight: 'bold' }}>职位信息</div>
-        <div style={{ fontWeight: 'bold' }}>{pos.position_name}</div>
+        <div style={{ fontSize: 'large', fontWeight: 'bold' }}>{pos.position_name}</div>
         <div>{pos.jd}</div>
       </div>
     );
@@ -138,6 +137,7 @@ export default function CompanyHome() {
         <div style={{ fontSize: 'xx-large' }}>{companyInfo.value?.company_name ?? ''}</div>
         <div>
           <Button onClick={showDrawer}>添加新职位</Button>
+          <span style={{ padding: '0 0 0 1em' }}> </span>
           <Button
             onClick={() => {
               window.location.pathname = 'companyAllProcess';

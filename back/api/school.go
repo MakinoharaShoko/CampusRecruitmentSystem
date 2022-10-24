@@ -10,7 +10,7 @@ import (
 func GetAllProcess(c *gin.Context) {
 	var allProcess []model.Process
 	schoolName := c.Query("school_name")
-	model.DB.Raw("select * from processes where interviewee_id in ( select id from users where background = ? )", schoolName).Scan(&allProcess)
+	model.DB.Raw("select * from processes where interviewee_id in ( select id from users where institution = ? )", schoolName).Scan(&allProcess)
 	c.JSON(http.StatusOK, serializer.Response{Data: allProcess})
 }
 

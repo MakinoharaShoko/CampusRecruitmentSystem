@@ -5,7 +5,8 @@ import { Avatar, Button, DatePicker, Descriptions, Form, Input, message, Modal, 
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import styles from './me.module.scss';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import ProcessDetail, { IProcessDetail } from '@/pages/process/ProcessDetail';
 
 /**
  * 普通用户信息
@@ -19,7 +20,7 @@ interface IUserInfo {
   created_at: number;
 }
 
-interface IUserOpenInfo {
+export interface IUserOpenInfo {
   institution: string;
   background: string;
   graduation_at: number;
@@ -43,6 +44,7 @@ export default function Me() {
   const myInfo = useValue<IUserInfo | null>(null);
   const myOpenInfo = useValue<IUserOpenInfo | null>(null);
   const isEditting = useValue(false);
+  const allProcess = useValue<IProcessDetail[]>([]);
   useEffect(() => {
     axios.get('/api/v1/user/me').then((resp) => {
       const data = resp.data;
@@ -56,6 +58,10 @@ export default function Me() {
         axios.get(`/api/v1/interviewee/me?interviewee_id=${info.id}`).then((resp2) => {
           console.log(resp2.data.data);
           myOpenInfo.set(resp2.data.data);
+        });
+        axios.get(`/api/v1/interviewee/get_all_process?uid=${myInfo.value?.id ?? 0}`).then((resp2) => {
+          console.log(resp2);
+          allProcess.set(resp2.data.data);
         });
       }
     });
@@ -148,6 +154,17 @@ export default function Me() {
     }
   };
 
+  const handleChange2: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+    console.log(info.file);
+    const formData = new FormData();
+    formData.append('uid', myInfo.value?.id.toString() ?? '1');
+    formData.append('file', info.file.originFileObj as Blob);
+    axios.post('/api/v1/interviewee/post_resume', formData).then((resp) => {
+      console.log(resp);
+      window.location.reload();
+    });
+  };
+
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
@@ -166,6 +183,20 @@ export default function Me() {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+
+  const myAllProcess = allProcess.value.map((process) => {
+    return (
+      <ProcessDetail
+        key={process.creat_at + process.status + process.company_id}
+        interviewee_id={process.interviewee_id}
+        // @ts-ignore
+        postion_id={process.position_id!}
+        company_id={process.company_id}
+        status={process.status}
+        creat_at={process.creat_at}
+      />
+    );
+  });
 
   return (
     <div>
@@ -212,6 +243,22 @@ export default function Me() {
             <Descriptions.Item label="毕业时间">{myOpenInfo.value?.graduation_at ?? 0}</Descriptions.Item>
           </Descriptions>
         )}
+        <div style={{ margin: '0.5em 0.5em 0.5em 0.5em' }}>
+          <Upload name="file" onChange={handleChange2}>
+            <Button icon={<UploadOutlined />}>更新简历</Button>
+          </Upload>
+          <div style={{ margin: '0.5em 0.5em 0.5em 0.1em' }}>
+            {
+              // @ts-ignore
+              (myOpenInfo.value?.resume ?? '') === '' && '你还没有上传简历'
+            }
+            {
+              // @ts-ignore
+              (myOpenInfo.value?.resume ?? '') !== '' && <a href={myOpenInfo.value?.resume ?? ''}>我的简历</a>
+            }
+          </div>
+        </div>
+        <div>{myAllProcess}</div>
       </PageHeader>
       <Modal title="上传头像" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Upload

@@ -8,6 +8,7 @@ import './App.css';
 import styles from './app.module.scss';
 import Login from './pages/login/Login';
 import CompanyHome from '@/pages/companyHome/CompanyHome';
+import CompanyAllProcecss from '@/pages/process/CompanyAllProcess';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/company',
     element: <CompanyHome />,
+  },
+  {
+    path: '/companyAllProcess',
+    element: <CompanyAllProcecss />,
   },
 ]);
 

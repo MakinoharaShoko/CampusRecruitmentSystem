@@ -40,7 +40,7 @@ export default function Home() {
         position_name={pos.position_name}
         company_id={pos.company_id}
         jd={pos.jd}
-        creat_at={pos.creat_at}
+        created_at={pos.created_at}
         isStu={isStu}
         stuId={stuId}
       />

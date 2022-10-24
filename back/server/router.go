@@ -22,6 +22,7 @@ func NewRouter() *gin.Engine {
 	//r.MaxMultipartMemory = 8 << 20 // 8 MiB
 	// 设置静态文件夹
 	r.Static("./upload/avatar", "./upload/avatar")
+	r.Static("./upload/resume", "./upload/resume")
 
 	// 路由
 	v1 := r.Group("/api/v1")

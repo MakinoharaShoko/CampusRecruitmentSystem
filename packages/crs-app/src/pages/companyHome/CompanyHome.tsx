@@ -16,7 +16,7 @@ export interface IPositionInfo {
   position_name: string;
   company_id: string;
   jd: string;
-  creat_at: number;
+  created_at: number;
 }
 
 export default function CompanyHome() {
@@ -49,9 +49,17 @@ export default function CompanyHome() {
 
   const JDs = filtedPositionInfo.map((pos) => {
     return (
-      <div key={pos.id} style={{ margin: '1em 1em 1em 1em' }}>
-        <div>职位信息</div>
-        <div>{pos.position_name}</div>
+      <div
+        key={pos.id}
+        style={{
+          margin: '1em 1em 1em 1em',
+          padding: '0.5em 0.5em 0.5em 0.5em',
+          boxShadow: '3px 3px 10px rgba(0,0,0,0.1)',
+          border: '1px solid rgba(0,0,0,0.1)',
+        }}
+      >
+        <div style={{ fontSize: 'large', fontWeight: 'bold' }}>职位信息</div>
+        <div style={{ fontWeight: 'bold' }}>{pos.position_name}</div>
         <div>{pos.jd}</div>
       </div>
     );
@@ -80,7 +88,7 @@ export default function CompanyHome() {
     axios.post('/api/v1/position/new_position', formValue).then((resp) => {
       const returnData = resp.data;
       console.log(returnData);
-      // window.location.reload();
+      window.location.reload();
     });
   }
 
@@ -127,9 +135,16 @@ export default function CompanyHome() {
   return (
     <div>
       <PageHeader title="我的信息" subTitle="企业用户" extra={<Button onClick={exit}>退出登录</Button>}>
-        {companyInfo.value?.company_name ?? ''}
+        <div style={{ fontSize: 'xx-large' }}>{companyInfo.value?.company_name ?? ''}</div>
         <div>
           <Button onClick={showDrawer}>添加新职位</Button>
+          <Button
+            onClick={() => {
+              window.location.pathname = 'companyAllProcess';
+            }}
+          >
+            管理流程
+          </Button>
         </div>
       </PageHeader>
       <Drawer title="发布新职位" placement="bottom" open={open} onClose={onClose}>

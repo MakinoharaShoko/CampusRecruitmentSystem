@@ -1,6 +1,8 @@
 package server
 
 import (
+	"log"
+	"mime"
 	"os"
 	"singo/api"
 	"singo/middleware"
@@ -21,8 +23,13 @@ func NewRouter() *gin.Engine {
 	// 最大文件大小
 	//r.MaxMultipartMemory = 8 << 20 // 8 MiB
 	// 设置静态文件夹
+	err := mime.AddExtensionType(".js", "text/javascript; charset=utf-8")
+	if err != nil {
+		log.Printf("Error in mime js %s", err.Error())
+	}
 	r.Static("./upload/avatar", "./upload/avatar")
 	r.Static("./upload/resume", "./upload/resume")
+	r.Static("./static", "./static")
 
 	// 路由
 	v1 := r.Group("/api/v1")

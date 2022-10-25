@@ -49,8 +49,8 @@ export default function Home() {
 
   return (
     <div>
-      <div style={{ width: '100%', textAlign: 'center', fontSize: 'large' }}>欢迎投递！</div>
-      <div>{JDS}</div>
+      <div style={{ padding: '1em 0 1em 0', width: '100%', textAlign: 'center', fontSize: 'x-large' }}>欢迎投递！</div>
+      <div style={{ overflow: 'auto', height: '60vh' }}>{JDS}</div>
     </div>
   );
 }

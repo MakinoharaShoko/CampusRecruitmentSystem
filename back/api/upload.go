@@ -24,7 +24,7 @@ func UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	basePath := "./upload/avatar"
+	basePath := "/upload/avatar"
 	filename := basePath + "/" + filepath.Base(file.Filename)
 	if err := c.SaveUploadedFile(file, filename); err != nil {
 		c.JSON(http.StatusBadRequest, ErrorResponse(err))
@@ -49,7 +49,7 @@ func UploadResume(c *gin.Context) {
 	}
 
 	//文件保存目录
-	saveDir := "./upload/resume"
+	saveDir := "/upload/resume"
 	//保存的文件名称
 	savePath := saveDir + "/" + header.Filename
 	//打开目录

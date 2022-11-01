@@ -34,6 +34,7 @@ export default function UserRegister() {
   function registerUser(values: any) {
     const formData = parseFormData(values);
     axios.post('/api/v1/user/register', formData).then((resp) => {});
+    window.location.pathname = '/login';
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -50,6 +51,7 @@ export default function UserRegister() {
     axios.post('/api/v1/company/register', formData).then((resp) => {
       const returnData = resp.data;
       console.log(returnData);
+      window.location.pathname = '/login';
     });
   }
 

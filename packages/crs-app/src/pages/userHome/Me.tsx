@@ -220,7 +220,9 @@ export default function Me() {
         subTitle="学生用户"
       >
         <div style={{ display: 'flex', alignItems: 'center', padding: '1em 1em 1em 1em' }}>
-          {myInfo.value?.avatar !== '' && <Avatar onClick={showModal} src={myInfo.value?.avatar ?? ''} />}
+          {myInfo.value?.avatar !== '' && (
+            <Avatar onClick={showModal} src={myInfo.value?.avatar.replace(/\./, '') ?? ''} />
+          )}
           {myInfo.value?.avatar === '' && (
             <Avatar onClick={showModal} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
               {myInfo.value.user_name}
@@ -254,7 +256,10 @@ export default function Me() {
             }
             {
               // @ts-ignore
-              (myOpenInfo.value?.resume ?? '') !== '' && <a href={myOpenInfo.value?.resume ?? ''}>我的简历</a>
+              (myOpenInfo.value?.resume ?? '') !== '' && (
+                // @ts-ignore
+                <a href={myOpenInfo.value?.resume.replace(/\./, '') ?? ''}>我的简历</a>
+              )
             }
           </div>
         </div>
@@ -269,7 +274,7 @@ export default function Me() {
           beforeUpload={beforeUpload}
           onChange={handleChange}
         >
-          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+          {imageUrl ? <img src={imageUrl.replace(/\./, '')} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
         </Upload>
       </Modal>
     </div>

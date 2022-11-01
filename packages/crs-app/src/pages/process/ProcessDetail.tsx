@@ -63,7 +63,10 @@ export default function ProcessDetail(props: IProcessDetail) {
             }
             {
               // @ts-ignore
-              (myOpenInfo.value?.resume ?? '') !== '' && <a href={myOpenInfo.value?.resume ?? ''}>候选人简历</a>
+              (myOpenInfo.value?.resume ?? '') !== '' && (
+                // @ts-ignore
+                <a href={myOpenInfo.value?.resume.replace(/\./, '') ?? ''}>候选人简历</a>
+              )
             }
           </div>
         </Descriptions.Item>

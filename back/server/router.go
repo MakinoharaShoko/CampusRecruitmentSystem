@@ -27,8 +27,8 @@ func NewRouter() *gin.Engine {
 	if err != nil {
 		log.Printf("Error in mime js %s", err.Error())
 	}
-	r.Static("/upload/avatar", "./upload/avatar")
-	r.Static("/upload/resume", "./upload/resume")
+	r.Static("./upload/avatar", "./upload/avatar")
+	r.Static("./upload/resume", "./upload/resume")
 	r.Static("./static", "./static")
 
 	// 路由

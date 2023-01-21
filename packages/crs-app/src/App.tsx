@@ -11,8 +11,7 @@ import CompanyHome from '@/pages/companyHome/CompanyHome';
 import CompanyAllProcecss from '@/pages/process/CompanyAllProcess';
 import Summary from '@/pages/summary/Summary';
 import { useValue } from '@/hooks/useValue';
-import React, { useEffect } from 'react';
-import { eventBus } from '@/decorator/eventEmitter';
+import React from 'react';
 import { useRigisterComps } from '@/hooks/useRigisterComps';
 
 const routes = [
@@ -57,7 +56,7 @@ function App() {
         <div style={{ display: 'flex', color: 'white' }}>
           <div className={styles.title}>
             <a className={styles.menuA} href="/">
-              高校校园招聘管理系统
+              Test Decorator
             </a>
           </div>
           <div style={{ margin: '0 0 0 auto' }} className={styles.menuItem}>

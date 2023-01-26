@@ -1,14 +1,12 @@
-import { compsToRegister } from '@/pages/compsToRegister';
-import { createElement, useEffect } from 'react';
-import { useValue } from '@/hooks/useValue';
+import { createElement } from 'react';
 
-export function useRigisterComps(AppRoutes: ReturnType<typeof useValue<Array<any>>>) {
-  useEffect(() => {
-    for (const Comp of compsToRegister) {
-      const routes = Reflect.getMetadata('routes', Comp);
-      for (const route of routes) {
-        AppRoutes.set([...AppRoutes.value, { path: route.path, element: createElement(route.render) }]);
-      }
+export function useRigisterComps(compsToRegister: Array<any>) {
+  const returnRoutes = [];
+  for (const Comp of compsToRegister) {
+    const routes = Reflect.getMetadata('routes', Comp);
+    for (const route of routes) {
+      returnRoutes.push({ path: route.path, element: createElement(route.render) });
     }
-  }, []);
+  }
+  return returnRoutes;
 }

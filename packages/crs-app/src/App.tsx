@@ -2,17 +2,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import Me from './pages/userHome/Me';
 import UserRegister from './pages/register/userRegister';
-import { Layout, Menu } from 'antd';
-const { Header, Footer, Sider, Content } = Layout;
+import { Layout } from 'antd';
+const { Header, Footer, Content } = Layout;
 import './App.css';
 import styles from './app.module.scss';
 import Login from './pages/login/Login';
 import CompanyHome from '@/pages/companyHome/CompanyHome';
 import CompanyAllProcecss from '@/pages/process/CompanyAllProcess';
 import Summary from '@/pages/summary/Summary';
-import { useValue } from '@/hooks/useValue';
 import React from 'react';
 import { useRigisterComps } from '@/hooks/useRigisterComps';
+import { appModule } from '@/pages/AppModule';
 
 const routes = [
   {
@@ -46,10 +46,9 @@ const routes = [
 ];
 
 function App() {
-  const AppRoutes = useValue(routes);
-  useRigisterComps(AppRoutes);
+  const AppRoutes = [...useRigisterComps(appModule), ...routes];
 
-  const router = createBrowserRouter(AppRoutes.value);
+  const router = createBrowserRouter(AppRoutes);
   return (
     <Layout style={{ height: '100%' }}>
       <Header>

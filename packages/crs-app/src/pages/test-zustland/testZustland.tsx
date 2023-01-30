@@ -2,6 +2,7 @@ import { MyComponent } from '@/decorator/componentDecorator';
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import styles from './yy.module.scss';
 
 const useBearStore = create(
   immer(
@@ -40,5 +41,23 @@ export class TestZustand {
         <Controls />
       </div>
     );
+  }
+
+  @MyComponent('test-text')
+  public testText() {
+    const text = '為什麼你會這麼熟練啊！你和雪菜親過多少次了啊!?你到底要把我甩開多遠你才甘心啊!?';
+    const arr = text.split('');
+    const textV = arr.map((char, i) => {
+      return (
+        <span key={char + i} className={styles.container}>
+          <span className={styles.zhanwei}>
+            {char}
+            <span className={styles.outer}>{char}</span>
+            <span className={styles.inner}>{char}</span>
+          </span>
+        </span>
+      );
+    });
+    return <div>{textV}</div>;
   }
 }

@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import styles from './yy.module.scss';
+import { configureStore } from '@/utils/configureStore';
 
 const useBearStore = create(
   immer(
@@ -15,6 +16,14 @@ const useBearStore = create(
     })),
   ),
 );
+
+const useBearStore2 = configureStore({ bears: 0 }, (set) => ({
+  increasePopulation: () =>
+    set((state) => {
+      state.bears++;
+    }),
+  removeAllBears: () => set({ bears: 0 }),
+}));
 
 function useStoreOutsideOfFunc() {
   useBearStore.setState({ bears: 0 });

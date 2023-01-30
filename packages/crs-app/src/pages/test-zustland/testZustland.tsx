@@ -21,21 +21,22 @@ const useBearStore2 = configureStore({ bears: 0 }, (set) => ({
   increasePopulation: () =>
     set((state) => {
       state.bears++;
+      return state;
     }),
   removeAllBears: () => set({ bears: 0 }),
 }));
 
 function useStoreOutsideOfFunc() {
-  useBearStore.setState({ bears: 0 });
+  useBearStore2.setState({ bears: 0 });
 }
 
 function BearCounter() {
-  const bears = useBearStore((state) => state.bears);
+  const bears = useBearStore2((state) => state.bears);
   return <h1>{bears} around here ...</h1>;
 }
 
 function Controls() {
-  const increasePopulation = useBearStore((state) => state.increasePopulation);
+  const increasePopulation = useBearStore2((state) => state.increasePopulation);
   return <button onClick={increasePopulation}>one up</button>;
 }
 

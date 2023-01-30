@@ -1,12 +1,18 @@
 import { MyComponent } from '@/decorator/componentDecorator';
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
 const useBearStore = create(
-  combine({ bears: 0 }, (set) => ({
-    increasePopulation: () => set((state: { bears: number }) => ({ bears: state.bears + 1 })),
-    removeAllBears: () => set({ bears: 0 }),
-  })),
+  immer(
+    combine({ bears: 0 }, (set) => ({
+      increasePopulation: () =>
+        set((state) => {
+          state.bears++;
+        }),
+      removeAllBears: () => set({ bears: 0 }),
+    })),
+  ),
 );
 
 function useStoreOutsideOfFunc() {

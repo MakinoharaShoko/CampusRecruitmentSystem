@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <div>
-      <div style={{ padding: '1em 0 1em 0', width: '100%', textAlign: 'center', fontSize: 'x-large' }}>
+      <div style={{ padding: '2em 4em 2em 4em', width: '100%', textAlign: 'center', fontSize: 'x-large' }}>
         Experiment Place
         {experimentPageList}
       </div>

@@ -58,24 +58,24 @@ function App() {
               Experiment Page
             </a>
           </div>
-          <div style={{ margin: '0 0 0 auto' }} className={styles.menuItem}>
-            <a className={styles.menuA} href="/me">
-              Page1
-            </a>
-          </div>
-          <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
-            <a className={styles.menuA} href="/company">
-              Page2
-            </a>
-          </div>
-          <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
-            <a className={styles.menuA} href="/summary">
-              Page3
-            </a>
-          </div>
+          {/* <div style={{ margin: '0 0 0 auto' }} className={styles.menuItem}> */}
+          {/*  <a className={styles.menuA} href="/me"> */}
+          {/*    Page1 */}
+          {/*  </a> */}
+          {/* </div> */}
+          {/* <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}> */}
+          {/*  <a className={styles.menuA} href="/company"> */}
+          {/*    Page2 */}
+          {/*  </a> */}
+          {/* </div> */}
+          {/* <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}> */}
+          {/*  <a className={styles.menuA} href="/summary"> */}
+          {/*    Page3 */}
+          {/*  </a> */}
+          {/* </div> */}
         </div>
       </Header>
-      <Content style={{ margin: '2em 2em 2em 2em', background: 'white' }}>
+      <Content style={{ margin: '2em 2em 2em 2em', padding: '1em 1em 1em 1em', background: 'white' }}>
         <RouterProvider router={router} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>2022 CRS Team</Footer>

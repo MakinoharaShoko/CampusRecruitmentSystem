@@ -9,6 +9,7 @@ export function MyComponent(value: string) {
     routes.push({
       path: value,
       render: target[propertyKey],
+      propertyKey,
     });
     Reflect.defineMetadata('routes', routes, target.constructor);
   };

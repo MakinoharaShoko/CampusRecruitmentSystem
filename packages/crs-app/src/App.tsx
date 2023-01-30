@@ -55,22 +55,22 @@ function App() {
         <div style={{ display: 'flex', color: 'white' }}>
           <div className={styles.title}>
             <a className={styles.menuA} href="/">
-              Test Decorator
+              Experiment Page
             </a>
           </div>
           <div style={{ margin: '0 0 0 auto' }} className={styles.menuItem}>
             <a className={styles.menuA} href="/me">
-              个人中心
+              Page1
             </a>
           </div>
           <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
             <a className={styles.menuA} href="/company">
-              企业管理
+              Page2
             </a>
           </div>
           <div style={{ margin: '0 0 0 0.5em' }} className={styles.menuItem}>
             <a className={styles.menuA} href="/summary">
-              就业质量统计
+              Page3
             </a>
           </div>
         </div>

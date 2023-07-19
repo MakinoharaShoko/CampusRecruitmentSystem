@@ -55,7 +55,9 @@ export class TestZustand {
 
   @MyComponent('test-text')
   public testText() {
-    const text = '為什麼你會這麼熟練啊！你和雪菜親過多少次了啊!?你到底要把我甩開多遠你才甘心啊!?';
+    const text = `胸につかえていることを、时は解决してくれない。忘却のラベルを贴るだけで。
+心中怀抱的东西，并不能随时间流去而淡解。只是贴上忘却的标签来掩饰。
+The things that are stuck in your chest, time won't solve them. It just pastes the label of oblivion.`;
     const arr = text.split('');
     const textV = arr.map((char, i) => {
       return (
